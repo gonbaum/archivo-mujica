@@ -1,0 +1,39 @@
+---
+interface Props {
+  src: string | undefined;
+  alt: string;
+  width?: number;
+  height?: number;
+  className?: string;
+}
+
+const { src, alt, width = 160, height = 240, className = "" } = Astro.props;
+const defaultImage = "/images/portadas/default-book-cover.svg";
+---
+
+<img
+  src={src || defaultImage}
+  alt={alt}
+  width={width}
+  height={height}
+  class={className}
+  onerror="this.onerror=null;this.src=this.dataset.default;"
+  data-default={defaultImage}
+  loading="lazy"
+/>
+
+<style>
+  img {
+    max-width: 100%;
+    height: auto;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    border-radius: 4px;
+    background: #f5f5f5;
+    object-fit: cover;
+  }
+
+  img[src*="default-book-cover"] {
+    background: #f8f8f8;
+    border: 1px solid #eee;
+  }
+</style>

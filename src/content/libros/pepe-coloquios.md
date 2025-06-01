@@ -1,24 +1,33 @@
 ---
 titulo: "Pepe Coloquios"
-fecha: "2009-10-20"
-resumen: "Conversaciones con José Mujica sobre política, filosofía y vida cotidiana."
-fuente: "Alfredo García"
 autor: "Alfredo García"
+fecha: "2009-10-20"
+portada: "/images/portadas/pepe-coloquios.webp"
+editorial: "Editorial Fin de Siglo"
+año: 2009
+paginas: 245
+isbn: "978-9974-49-477-6"
+formato: "Tapa blanda"
+sinopsis: "Este libro recopila una serie de conversaciones mantenidas con José 'Pepe' Mujica entre 2005 y 2009, período en el que ocupó el cargo de Ministro de Ganadería, Agricultura y Pesca de Uruguay. Las charlas tuvieron lugar principalmente en su chacra de Rincón del Cerro, en momentos de descanso entre sus labores agrícolas y gubernamentales."
+resumen: "Conversaciones íntimas con José Mujica sobre política, filosofía y vida cotidiana."
+fuente: "Editorial Fin de Siglo"
 ---
 
-# Pepe Coloquios
+## Sobre el libro
 
-_Por Alfredo García, 2009_
+_Pepe Coloquios_ es un retrato íntimo del pensamiento de José Mujica, capturado a través de conversaciones que abarcan desde la política hasta la filosofía de vida. El libro ofrece una visión única de la mente de uno de los líderes más carismáticos de América Latina.
 
-## Introducción
+## Contenido
 
-Este libro recopila una serie de conversaciones mantenidas con José "Pepe" Mujica entre 2005 y 2009, período en el que ocupó el cargo de Ministro de Ganadería, Agricultura y Pesca de Uruguay. Las charlas tuvieron lugar principalmente en su chacra de Rincón del Cerro, en momentos de descanso entre sus labores agrícolas y gubernamentales.
+- Conversaciones sobre política y sociedad
+- Reflexiones sobre la felicidad y la vida simple
+- Anécdotas personales y experiencias de vida
+- Pensamientos sobre el medio ambiente y la sostenibilidad
+- Visión sobre el futuro de Uruguay y América Latina
 
-Lo que sigue es un intento de capturar el pensamiento vivo de un hombre que ha transitado un camino único: desde la guerrilla tupamara hasta la presidencia de Uruguay, pasando por 13 años de prisión y una vida dedicada a la política desde valores profundamente humanistas.
+## Sobre el autor
 
-## Sobre la felicidad y la vida simple
-
-**—Pepe, usted vive de una manera que muchos considerarían austera. ¿Por qué esa elección?**
+Alfredo García es periodista y escritor uruguayo, conocido por sus perfiles biográficos y entrevistas a profundidad con figuras políticas y culturales de América Latina.
 
 —Mire, yo no vivo de manera austera. Yo vivo como quiero vivir. Lo que pasa es que la sociedad contemporánea confunde austeridad con pobreza. Yo no soy pobre. Pobre es el que necesita mucho para vivir. Yo necesito poco, entonces soy libre.
 

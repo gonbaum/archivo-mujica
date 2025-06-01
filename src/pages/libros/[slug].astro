@@ -1,6 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
+import BookCover from '../../components/BookCover.astro';
 
 // Obtener todos los libros para generar las páginas
 export async function getStaticPaths() {
@@ -11,43 +12,257 @@ export async function getStaticPaths() {
     }));
 }
 
-// Extraer la entrada de la colección y renderizar su contenido
+// Extraer la entrada de la colección
 const { libro } = Astro.props;
 const { Content } = await libro.render();
+
+// Asegurarse de que BookCover esté disponible
+if (typeof BookCover === 'undefined') {
+    console.error('BookCover no está definido');
+}
 
 // Formatear la fecha para mostrar
 const formattedDate = new Intl.DateTimeFormat('es-UY', {
     year: 'numeric',
     month: 'long',
-    day: 'numeric'
 }).format(libro.data.fecha);
 ---
 
 <Layout 
-    title={libro.data.titulo} 
-    description={libro.data.resumen}
+    title={`${libro.data.titulo} - ${libro.data.autor}`} 
+    description={libro.data.sinopsis || `Información sobre el libro ${libro.data.titulo} de ${libro.data.autor}`}
 >
-    <article class="content libro">
-        <div class="metadata">
-            <time datetime={libro.data.fecha.toISOString()}>{formattedDate}</time>
-            {libro.data.autor && <div class="autor">Por: {libro.data.autor}</div>}
+    <article class="content libro-detalle">
+        <div class="libro-header">
+            <div class="portada">
+                <BookCover 
+                    src={libro.data.portada}
+                    alt={`Portada de ${libro.data.titulo}`}
+                    width={300}
+                    height={450}
+                />
+            </div>
+            
+            <div class="info">
+                <h1>{libro.data.titulo}</h1>
+                <h2 class="autor">Por {libro.data.autor}</h2>
+                
+                <div class="metadatos">
+                    {libro.data.editorial && (
+                        <div class="metadato">
+                            <strong>Editorial:</strong> {libro.data.editorial}
+                        </div>
+                    )}
+                    
+                    <div class="metadato">
+                        <strong>Publicado:</strong> {formattedDate}
+                    </div>
+                    
+                    {libro.data.paginas && (
+                        <div class="metadato">
+                            <strong>Páginas:</strong> {libro.data.paginas}
+                        </div>
+                    )}
+                    
+                    {libro.data.formato && (
+                        <div class="metadato">
+                            <strong>Formato:</strong> {libro.data.formato}
+                        </div>
+                    )}
+                    
+                    {libro.data.isbn && (
+                        <div class="metadato">
+                            <strong>ISBN:</strong> {libro.data.isbn}
+                        </div>
+                    )}
+                </div>
+                
+                {libro.data.enlaces && libro.data.enlaces.length > 0 && (
+                    <div class="enlaces-compra">
+                        <h3>Dónde comprar:</h3>
+                        <div class="botones">
+                            {libro.data.enlaces.map((enlace) => (
+                                <a 
+                                    href={enlace.url} 
+                                    target="_blank" 
+                                    rel="noopener noreferrer"
+                                    class={`boton ${enlace.tipo}`}
+                                >
+                                    {enlace.nombre}
+                                </a>
+                            ))}
+                        </div>
+                    </div>
+                )}
+            </div>
         </div>
         
-        <div class="libro-content">
+        <div class="libro-contenido">
             <Content />
         </div>
         
-        <div class="back-link">
-            <a href="/libros">&larr; Volver a libros</a>
+        <div class="volver">
+            <a href="/libros" class="boton">&larr; Volver al catálogo</a>
         </div>
     </article>
 </Layout>
 
 <style>
-    .libro {
-        max-width: var(--content-width);
+    .libro-detalle {
+        max-width: 1000px;
         margin: 0 auto;
-        padding: 0 1rem;
+        padding: 2rem 1.5rem;
+    }
+    
+    .libro-header {
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+        margin-bottom: 3rem;
+    }
+    
+    @media (min-width: 768px) {
+        .libro-header {
+            flex-direction: row;
+            align-items: flex-start;
+        }
+        
+        .portada {
+            flex: 0 0 300px;
+        }
+    }
+    
+    .portada {
+        background: #f5f5f5;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    
+    .portada img {
+        width: 100%;
+        height: auto;
+        display: block;
+    }
+    
+    .info {
+        flex: 1;
+    }
+    
+    h1 {
+        margin: 0 0 0.5rem;
+        font-size: 2.25rem;
+        color: var(--color-text);
+    }
+    
+    .autor {
+        font-size: 1.25rem;
+        color: #666;
+        margin-bottom: 1.5rem;
+        font-weight: normal;
+    }
+    
+    .metadatos {
+        background: #f9f9f9;
+        padding: 1.5rem;
+        border-radius: 8px;
+        margin: 1.5rem 0;
+    }
+    
+    .metadato {
+        margin-bottom: 0.5rem;
+        font-size: 0.95rem;
+    }
+    
+    .metadato:last-child {
+        margin-bottom: 0;
+    }
+    
+    .metadato strong {
+        color: #333;
+    }
+    
+    .enlaces-compra {
+        margin-top: 2rem;
+    }
+    
+    .enlaces-compra h3 {
+        margin: 0 0 1rem;
+        font-size: 1.1rem;
+    }
+    
+    .botones {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.75rem;
+    }
+    
+    .boton {
+        display: inline-block;
+        padding: 0.75rem 1.25rem;
+        background: var(--color-accent);
+        color: white;
+        text-decoration: none;
+        border-radius: 6px;
+        font-weight: 500;
+        transition: background-color 0.2s;
+    }
+    
+    .boton:hover {
+        background: #1a4cb3;
+    }
+    
+    .boton.gratuito {
+        background: #10b981;
+    }
+    
+    .boton.gratuito:hover {
+        background: #0d9f6e;
+    }
+    
+    .boton.prueba {
+        background: #6b7280;
+    }
+    
+    .boton.prueba:hover {
+        background: #4b5563;
+    }
+    
+    .volver {
+        margin-top: 3rem;
+        text-align: center;
+    }
+    
+    .volver .boton {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+    
+    .libro-contenido {
+        line-height: 1.7;
+        max-width: 800px;
+        margin: 0 auto;
+    }
+    
+    .libro-contenido h2 {
+        margin-top: 2.5rem;
+        margin-bottom: 1.25rem;
+        color: var(--color-text);
+    }
+    
+    .libro-contenido p {
+        margin-bottom: 1.25rem;
+    }
+    
+    .libro-contenido ul, 
+    .libro-contenido ol {
+        margin-bottom: 1.5rem;
+        padding-left: 1.5rem;
+    }
+    
+    .libro-contenido li {
+        margin-bottom: 0.5rem;
     }
     
     .metadata {

@@ -1,46 +1,206 @@
 ---
-import { getCollection } from 'astro:content';
-import Layout from '../../layouts/Layout.astro';
-import PageTitle from '../../components/PageTitle.astro';
-import ContentCard from '../../components/ContentCard.astro';
+import { getCollection } from "astro:content";
+import Layout from "../../layouts/Layout.astro";
+import PageTitle from "../../components/PageTitle.astro";
+import BookCover from "../../components/BookCover.astro";
 
 // Obtener todos los libros y ordenarlos por fecha (más reciente primero)
-const libros = await getCollection('libros');
-const sortedLibros = libros.sort((a, b) => b.data.fecha.getTime() - a.data.fecha.getTime());
+const libros = await getCollection("libros");
+const sortedLibros = libros.sort(
+  (a, b) => b.data.fecha.getTime() - a.data.fecha.getTime()
+);
+
+// Función para formatear la fecha
+const formatDate = (date) => {
+  return new Intl.DateTimeFormat("es-UY", {
+    year: "numeric",
+    month: "long",
+  }).format(date);
+};
 ---
 
-<Layout 
-    title="Libros" 
-    description="Libros escritos por José Mujica o que analizan su vida, pensamiento y legado político."
+<Layout
+  title="Libros"
+  description="Libros escritos por José Mujica o que analizan su vida, pensamiento y legado político."
 >
-    <PageTitle 
-        title="Libros" 
-        description="Libros escritos por José Mujica o que analizan su vida, pensamiento y legado político."
-    />
+  <PageTitle
+    title="Libros"
+    description="Una selección de libros sobre José Mujica, incluyendo sus propias publicaciones y análisis sobre su pensamiento y trayectoria política."
+  />
 
-    <div class="content">
-        {sortedLibros.length > 0 ? (
-            sortedLibros.map((libro) => (
-                <ContentCard
-                    title={libro.data.titulo}
-                    date={libro.data.fecha}
-                    summary={libro.data.resumen}
-                    url={`/libros/${libro.slug}`}
-                    author={libro.data.autor}
-                    source={libro.data.fuente}
-                />
-            ))
-        ) : (
-            <p class="no-content">No hay libros disponibles en este momento.</p>
-        )}
-    </div>
+  <div class="libros-container">
+    {
+      sortedLibros.length > 0 ? (
+        <div class="libros-grid">
+          {sortedLibros.map((libro) => (
+            <a href={`/libros/${libro.slug}`} class="libro-card">
+              <div class="libro-card-inner">
+                <div class="portada-container">
+                  <BookCover 
+                    src={libro.data.portada}
+                    alt={`Portada de ${libro.data.titulo}`}
+                    width={160}
+                    height={240}
+                  />
+                </div>
+                <div class="libro-info">
+                  <h3 class="titulo">{libro.data.titulo}</h3>
+                  <p class="autor">{libro.data.autor}</p>
+                  {libro.data.editorial && (
+                    <p class="editorial">{libro.data.editorial}</p>
+                  )}
+                  <p class="fecha">{formatDate(libro.data.fecha)}</p>
+
+                  {libro.data.sinopsis && (
+                    <p class="sinopsis">
+                      {libro.data.sinopsis.length > 120
+                        ? libro.data.sinopsis.substring(0, 120) + "..."
+                        : libro.data.sinopsis}
+                    </p>
+                  )}
+
+                  <div class="detalles">
+                    {libro.data.formato && (
+                      <span class="etiqueta">{libro.data.formato}</span>
+                    )}
+                    {libro.data.paginas && (
+                      <span class="etiqueta">{libro.data.paginas} págs.</span>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </a>
+          ))}
+        </div>
+      ) : (
+        <p class="no-content">No hay libros disponibles en este momento.</p>
+      )
+    }
+  </div>
 </Layout>
 
 <style>
-    .no-content {
-        text-align: center;
-        padding: 2rem;
-        color: #666;
-        font-style: italic;
+  .libros-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1.5rem 4rem;
+  }
+
+  .libros-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+  }
+
+  .libro-card {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition:
+      transform 0.2s,
+      box-shadow 0.2s;
+    height: 100%;
+  }
+
+  .libro-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+  }
+
+  .libro-card-inner {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+
+  .portada-container {
+    background: #f8f9fa;
+    padding: 1.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-bottom: 1px solid #eee;
+    min-height: 300px;
+  }
+
+  .libro-info {
+    padding: 1.5rem;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .titulo {
+    font-size: 1.25rem;
+    margin: 0 0 0.5rem;
+    color: var(--color-text);
+    line-height: 1.3;
+  }
+
+  .autor {
+    font-size: 0.95rem;
+    color: #4b5563;
+    margin: 0 0 0.5rem;
+    font-weight: 500;
+  }
+
+  .editorial {
+    font-size: 0.85rem;
+    color: #6b7280;
+    margin: 0 0 0.5rem;
+    font-style: italic;
+  }
+
+  .fecha {
+    font-size: 0.85rem;
+    color: #6b7280;
+    margin: 0 0 1rem;
+  }
+
+  .sinopsis {
+    font-size: 0.95rem;
+    line-height: 1.5;
+    color: #4b5563;
+    margin: 0 0 1.25rem;
+    flex: 1;
+  }
+
+  .detalles {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  .etiqueta {
+    font-size: 0.75rem;
+    background: #f0f0f0;
+    color: #4b5563;
+    padding: 0.25rem 0.75rem;
+    border-radius: 999px;
+  }
+
+  .no-content {
+    text-align: center;
+    padding: 4rem 2rem;
+    color: #6b7280;
+    font-style: italic;
+    background: #f9fafb;
+    border-radius: 8px;
+  }
+
+  @media (max-width: 768px) {
+    .libros-grid {
+      grid-template-columns: 1fr;
     }
+
+    .libro-card {
+      max-width: 400px;
+      margin: 0 auto;
+    }
+  }
 </style>
