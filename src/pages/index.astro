@@ -1,0 +1,148 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Inicio">
+	<div class="hero">
+		<div class="hero-content">
+			<h1>Archivo José "Pepe" Mujica</h1>
+			<p>Documentación de la vida, obra y pensamiento del político uruguayo</p>
+		</div>
+	</div>
+
+	<div class="intro content">
+		<h2>Sobre este archivo</h2>
+		<p>Este sitio web tiene como objetivo recopilar y preservar el legado intelectual y político de José "Pepe" Mujica, expresidente de Uruguay y figura política reconocida mundialmente por su filosofía de vida austera y su compromiso con la justicia social.</p>
+		
+		<p>El archivo está organizado en cuatro secciones principales:</p>
+		
+		<div class="sections">
+			<a href="/discursos" class="section-card">
+				<h3>Discursos</h3>
+				<p>Intervenciones públicas, conferencias y discursos presidenciales destacados.</p>
+			</a>
+			
+			<a href="/escritos" class="section-card">
+				<h3>Escritos</h3>
+				<p>Textos, reflexiones y cartas escritas por Mujica a lo largo de su vida.</p>
+			</a>
+			
+			<a href="/libros" class="section-card">
+				<h3>Libros</h3>
+				<p>Publicaciones sobre su vida y pensamiento, tanto de su autoría como de terceros.</p>
+			</a>
+			
+			<a href="/articulos" class="section-card">
+				<h3>Artículos</h3>
+				<p>Reportajes, entrevistas y análisis periodísticos relevantes sobre su figura.</p>
+			</a>
+		</div>
+
+		<blockquote>
+			"Pobre no es el que tiene poco, sino el que necesita infinitamente mucho, y desea más y más."<br>
+			<cite>— José "Pepe" Mujica</cite>
+		</blockquote>
+	</div>
+</Layout>
+
+<style>
+	.hero {
+		background-color: var(--color-background-alt);
+		padding: 4rem 1rem;
+		text-align: center;
+		margin-bottom: 3rem;
+	}
+
+	.hero-content {
+		max-width: 800px;
+		margin: 0 auto;
+	}
+
+	.hero h1 {
+		font-size: 2.5rem;
+		margin-bottom: 1rem;
+	}
+
+	.hero p {
+		font-size: 1.25rem;
+		max-width: 600px;
+		margin: 0 auto;
+	}
+
+	.intro {
+		max-width: var(--content-width);
+		margin: 0 auto 3rem;
+	}
+
+	.sections {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+		gap: 1.5rem;
+		margin: 2rem 0;
+	}
+
+	.section-card {
+		background-color: var(--color-background-alt);
+		padding: 1.5rem;
+		border-radius: 4px;
+		color: var(--color-text);
+		text-decoration: none;
+		transition: transform 0.2s ease, box-shadow 0.2s ease;
+	}
+
+	.section-card:hover {
+		transform: translateY(-3px);
+		box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+	}
+
+	.section-card h3 {
+		color: var(--color-accent);
+		margin-top: 0;
+		margin-bottom: 0.5rem;
+	}
+
+	.section-card p {
+		margin-bottom: 0;
+		font-size: 0.95rem;
+	}
+
+	blockquote {
+		margin: 3rem 0;
+		padding: 1.5rem;
+		border-left: 4px solid var(--color-accent);
+		background-color: var(--color-background-alt);
+		font-family: var(--font-heading);
+		font-style: italic;
+		font-size: 1.15rem;
+	}
+
+	cite {
+		display: block;
+		margin-top: 0.75rem;
+		font-size: 0.9rem;
+		text-align: right;
+	}
+
+	@media (max-width: 768px) {
+		.hero {
+			padding: 3rem 1rem;
+		}
+
+		.hero h1 {
+			font-size: 2rem;
+		}
+
+		.hero p {
+			font-size: 1.1rem;
+		}
+
+		.sections {
+			grid-template-columns: 1fr;
+		}
+
+		blockquote {
+			font-size: 1rem;
+			padding: 1rem;
+		}
+	}
+</style>

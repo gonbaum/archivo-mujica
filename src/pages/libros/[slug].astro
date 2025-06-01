@@ -1,0 +1,120 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+
+// Obtener todos los libros para generar las páginas
+export async function getStaticPaths() {
+    const libros = await getCollection('libros');
+    return libros.map(libro => ({
+        params: { slug: libro.slug },
+        props: { libro },
+    }));
+}
+
+// Extraer la entrada de la colección y renderizar su contenido
+const { libro } = Astro.props;
+const { Content } = await libro.render();
+
+// Formatear la fecha para mostrar
+const formattedDate = new Intl.DateTimeFormat('es-UY', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+}).format(libro.data.fecha);
+---
+
+<Layout 
+    title={libro.data.titulo} 
+    description={libro.data.resumen}
+>
+    <article class="content libro">
+        <div class="metadata">
+            <time datetime={libro.data.fecha.toISOString()}>{formattedDate}</time>
+            {libro.data.autor && <div class="autor">Por: {libro.data.autor}</div>}
+        </div>
+        
+        <div class="libro-content">
+            <Content />
+        </div>
+        
+        <div class="back-link">
+            <a href="/libros">&larr; Volver a libros</a>
+        </div>
+    </article>
+</Layout>
+
+<style>
+    .libro {
+        max-width: var(--content-width);
+        margin: 0 auto;
+        padding: 0 1rem;
+    }
+    
+    .metadata {
+        margin-bottom: 2rem;
+        padding-bottom: 1rem;
+        border-bottom: 1px solid #eee;
+    }
+    
+    .autor {
+        margin-top: 0.5rem;
+        font-weight: 600;
+    }
+    
+    .libro-content {
+        font-family: var(--font-body);
+        line-height: 1.8;
+    }
+    
+    .libro-content h1 {
+        font-size: 2.25rem;
+        margin-bottom: 1rem;
+    }
+    
+    .libro-content h2 {
+        font-size: 1.5rem;
+        margin: 2rem 0 1rem;
+    }
+    
+    .libro-content h3 {
+        font-size: 1.25rem;
+        margin: 1.5rem 0 1rem;
+    }
+    
+    .libro-content p {
+        margin-bottom: 1.5rem;
+    }
+
+    .libro-content blockquote {
+        margin: 1.5rem 0;
+        padding: 0.5rem 1rem;
+        border-left: 4px solid var(--color-accent);
+        font-style: italic;
+        color: #555;
+    }
+    
+    .back-link {
+        margin-top: 3rem;
+        padding-top: 1rem;
+        border-top: 1px solid #eee;
+    }
+    
+    .back-link a {
+        display: inline-block;
+        font-weight: 600;
+    }
+
+    @media (max-width: 768px) {
+        .libro-content h1 {
+            font-size: 1.75rem;
+        }
+        
+        .libro-content h2 {
+            font-size: 1.35rem;
+        }
+        
+        .libro-content h3 {
+            font-size: 1.15rem;
+        }
+    }
+</style>

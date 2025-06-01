@@ -1,0 +1,46 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import PageTitle from '../../components/PageTitle.astro';
+import ContentCard from '../../components/ContentCard.astro';
+
+// Obtener todos los escritos y ordenarlos por fecha (más reciente primero)
+const escritos = await getCollection('escritos');
+const sortedEscritos = escritos.sort((a, b) => b.data.fecha.getTime() - a.data.fecha.getTime());
+---
+
+<Layout 
+    title="Escritos" 
+    description="Textos, reflexiones y cartas escritas por José Mujica a lo largo de su vida."
+>
+    <PageTitle 
+        title="Escritos" 
+        description="Textos, reflexiones y cartas escritas por José Mujica a lo largo de su vida."
+    />
+
+    <div class="content">
+        {sortedEscritos.length > 0 ? (
+            sortedEscritos.map((escrito) => (
+                <ContentCard
+                    title={escrito.data.titulo}
+                    date={escrito.data.fecha}
+                    summary={escrito.data.resumen}
+                    url={`/escritos/${escrito.slug}`}
+                    author={escrito.data.autor}
+                    source={escrito.data.fuente}
+                />
+            ))
+        ) : (
+            <p class="no-content">No hay escritos disponibles en este momento.</p>
+        )}
+    </div>
+</Layout>
+
+<style>
+    .no-content {
+        text-align: center;
+        padding: 2rem;
+        color: #666;
+        font-style: italic;
+    }
+</style>

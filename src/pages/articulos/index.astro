@@ -1,0 +1,46 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import PageTitle from '../../components/PageTitle.astro';
+import ContentCard from '../../components/ContentCard.astro';
+
+// Obtener todos los artículos y ordenarlos por fecha (más reciente primero)
+const articulos = await getCollection('articulos');
+const sortedArticulos = articulos.sort((a, b) => b.data.fecha.getTime() - a.data.fecha.getTime());
+---
+
+<Layout 
+    title="Artículos" 
+    description="Artículos de prensa, entrevistas y reportajes relevantes sobre José Mujica."
+>
+    <PageTitle 
+        title="Artículos" 
+        description="Artículos de prensa, entrevistas y reportajes relevantes sobre José Mujica."
+    />
+
+    <div class="content">
+        {sortedArticulos.length > 0 ? (
+            sortedArticulos.map((articulo) => (
+                <ContentCard
+                    title={articulo.data.titulo}
+                    date={articulo.data.fecha}
+                    summary={articulo.data.resumen}
+                    url={`/articulos/${articulo.slug}`}
+                    author={articulo.data.autor}
+                    source={articulo.data.fuente}
+                />
+            ))
+        ) : (
+            <p class="no-content">No hay artículos disponibles en este momento.</p>
+        )}
+    </div>
+</Layout>
+
+<style>
+    .no-content {
+        text-align: center;
+        padding: 2rem;
+        color: #666;
+        font-style: italic;
+    }
+</style>

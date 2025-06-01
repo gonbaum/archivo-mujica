@@ -1,0 +1,53 @@
+---
+const year = new Date().getFullYear();
+---
+
+<footer>
+    <div class="footer-container">
+        <p>&copy; {year} Archivo Mujica - Proyecto sin fines de lucro</p>
+        <p>Sitio dedicado a preservar el legado de José "Pepe" Mujica - Hecho en 
+          <span class="flag" title="Argentina">🇦🇷</span> 
+          con cariño para nuestro pueblo hermano
+          <span class="flag" title="Uruguay">🇺🇾</span></p>
+    </div>
+</footer>
+
+<style>
+    footer {
+        background-color: var(--color-background-alt);
+        padding: 2rem 0;
+        text-align: center;
+        font-size: 0.9rem;
+        color: #666;
+        margin-top: 3rem;
+    }
+
+    .footer-container {
+        max-width: var(--max-width);
+        margin: 0 auto;
+        padding: 0 1rem;
+    }
+
+    p {
+        margin: 0.5rem 0;
+        line-height: 1.6;
+    }
+    
+    .made-with-love {
+        margin-top: 1rem;
+        font-style: italic;
+        color: #555;
+    }
+    
+    .flag {
+        font-size: 1.2em;
+        vertical-align: middle;
+        margin: 0 2px;
+    }
+
+    @media (max-width: 768px) {
+        footer {
+            padding: 1.5rem 0;
+        }
+    }
+</style>

@@ -1,0 +1,151 @@
+---
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+
+interface Props {
+	title: string;
+	description?: string;
+}
+
+const { 
+	title, 
+	description = "Archivo digital sobre la vida, obra y pensamiento de José 'Pepe' Mujica" 
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="es">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="icon" type="image/svg+xml" href="/logo.svg" />
+		<meta name="generator" content={Astro.generator} />
+		<title>{title} | Archivo Mujica</title>
+		<meta name="description" content={description} />
+		<meta property="og:title" content={`${title} | Archivo Mujica`} />
+		<meta property="og:description" content={description} />
+		<meta property="og:type" content="website" />
+		<meta property="og:locale" content="es_UY" />
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;1,400&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet" />
+	</head>
+	<body>
+		<Header />
+		<main>
+			<slot />
+		</main>
+		<Footer />
+	</body>
+</html>
+
+<style is:global>
+	:root {
+		--color-text: #333333;
+		--color-accent: #1a56db;
+		--color-background: #f8f4f1;
+		--color-background-alt: #f0e9e4;
+		--font-heading: 'Merriweather', Georgia, serif;
+		--font-body: 'Open Sans', system-ui, sans-serif;
+		--max-width: 1200px;
+		--content-width: 800px;
+	}
+	
+	* {
+		margin: 0;
+		padding: 0;
+		box-sizing: border-box;
+	}
+	
+	html {
+		font-family: var(--font-body);
+		font-size: 16px;
+		color: var(--color-text);
+		background-color: var(--color-background);
+		line-height: 1.6;
+	}
+	
+	body {
+		display: flex;
+		flex-direction: column;
+		min-height: 100vh;
+	}
+	
+	main {
+		flex: 1;
+		width: 100%;
+		max-width: var(--max-width);
+		margin: 0 auto;
+		padding: 2rem 1rem;
+	}
+
+	h1, h2, h3, h4, h5, h6 {
+		font-family: var(--font-heading);
+		line-height: 1.2;
+		margin: 1.5rem 0 1rem;
+	}
+	
+	h1 {
+		font-size: 2.5rem;
+		margin-top: 0;
+	}
+	
+	h2 {
+		font-size: 1.75rem;
+	}
+	
+	p {
+		margin-bottom: 1.5rem;
+	}
+	
+	a {
+		color: var(--color-accent);
+		text-decoration: none;
+		transition: opacity 0.2s ease;
+	}
+	
+	a:hover {
+		opacity: 0.8;
+	}
+	
+	img {
+		max-width: 100%;
+		height: auto;
+	}
+	
+	.container {
+		width: 100%;
+		max-width: var(--content-width);
+		margin: 0 auto;
+	}
+	
+	.content {
+		max-width: var(--content-width);
+		margin: 0 auto;
+	}
+	
+	time {
+		display: block;
+		font-style: italic;
+		margin-bottom: 1rem;
+		color: #666;
+	}
+
+	@media (max-width: 768px) {
+		html {
+			font-size: 14px;
+		}
+		
+		h1 {
+			font-size: 2rem;
+		}
+		
+		h2 {
+			font-size: 1.5rem;
+		}
+		
+		main {
+			padding: 1.5rem 1rem;
+		}
+	}
+</style>

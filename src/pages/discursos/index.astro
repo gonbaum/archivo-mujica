@@ -1,0 +1,46 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import PageTitle from '../../components/PageTitle.astro';
+import ContentCard from '../../components/ContentCard.astro';
+
+// Obtener todos los discursos y ordenarlos por fecha (más reciente primero)
+const discursos = await getCollection('discursos');
+const sortedDiscursos = discursos.sort((a, b) => b.data.fecha.getTime() - a.data.fecha.getTime());
+---
+
+<Layout 
+    title="Discursos" 
+    description="Recopilación de los discursos más importantes de José Mujica a lo largo de su carrera política y después de su presidencia."
+>
+    <PageTitle 
+        title="Discursos" 
+        description="Recopilación de los discursos más importantes de José Mujica a lo largo de su carrera política y después de su presidencia."
+    />
+
+    <div class="content">
+        {sortedDiscursos.length > 0 ? (
+            sortedDiscursos.map((discurso) => (
+                <ContentCard
+                    title={discurso.data.titulo}
+                    date={discurso.data.fecha}
+                    summary={discurso.data.resumen}
+                    url={`/discursos/${discurso.slug}`}
+                    author={discurso.data.autor}
+                    source={discurso.data.fuente}
+                />
+            ))
+        ) : (
+            <p class="no-content">No hay discursos disponibles en este momento.</p>
+        )}
+    </div>
+</Layout>
+
+<style>
+    .no-content {
+        text-align: center;
+        padding: 2rem;
+        color: #666;
+        font-style: italic;
+    }
+</style>

@@ -1,0 +1,46 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import PageTitle from '../../components/PageTitle.astro';
+import ContentCard from '../../components/ContentCard.astro';
+
+// Obtener todos los libros y ordenarlos por fecha (más reciente primero)
+const libros = await getCollection('libros');
+const sortedLibros = libros.sort((a, b) => b.data.fecha.getTime() - a.data.fecha.getTime());
+---
+
+<Layout 
+    title="Libros" 
+    description="Libros escritos por José Mujica o que analizan su vida, pensamiento y legado político."
+>
+    <PageTitle 
+        title="Libros" 
+        description="Libros escritos por José Mujica o que analizan su vida, pensamiento y legado político."
+    />
+
+    <div class="content">
+        {sortedLibros.length > 0 ? (
+            sortedLibros.map((libro) => (
+                <ContentCard
+                    title={libro.data.titulo}
+                    date={libro.data.fecha}
+                    summary={libro.data.resumen}
+                    url={`/libros/${libro.slug}`}
+                    author={libro.data.autor}
+                    source={libro.data.fuente}
+                />
+            ))
+        ) : (
+            <p class="no-content">No hay libros disponibles en este momento.</p>
+        )}
+    </div>
+</Layout>
+
+<style>
+    .no-content {
+        text-align: center;
+        padding: 2rem;
+        color: #666;
+        font-style: italic;
+    }
+</style>
