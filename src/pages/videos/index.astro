@@ -1,0 +1,166 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import PageTitle from '../../components/PageTitle.astro';
+
+// Obtener todos los videos y ordenarlos por fecha (más reciente primero)
+const videos = await getCollection('videos');
+const sortedVideos = videos.sort((a, b) => b.data.fecha.getTime() - a.data.fecha.getTime());
+
+// Función para extraer el ID de YouTube de una URL
+const getYoutubeThumbnail = (url: string) => {
+  const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+  const match = url.match(regExp);
+  if (match && match[2].length === 11) {
+    return `https://img.youtube.com/vi/${match[2]}/hqdefault.jpg`;
+  }
+  return null;
+};
+
+// Función para formatear la fecha
+const formatDate = (date: Date) => {
+  return new Intl.DateTimeFormat('es-UY', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+  }).format(date);
+};
+---
+
+<Layout 
+  title="Videos" 
+  description="Colección de discursos, entrevistas y apariciones públicas de José 'Pepe' Mujica"
+>
+  <PageTitle 
+    title="Videos" 
+    description="Discursos, entrevistas y apariciones públicas de José 'Pepe' Mujica"
+  />
+
+  <div class="videos-container">
+    {sortedVideos.length > 0 ? (
+      <div class="videos-grid">
+        {sortedVideos.map((video) => {
+          const thumbnail = getYoutubeThumbnail(video.data.url);
+          
+          return (
+            <a href={`/videos/${video.slug}`} class="video-card">
+              <div class="video-thumbnail">
+                {thumbnail && (
+                  <img 
+                    src={thumbnail} 
+                    alt={`Miniatura de ${video.data.titulo}`}
+                    loading="lazy"
+                  />
+                )}
+                <div class="video-duration">{video.data.duracion}</div>
+              </div>
+              <div class="video-info">
+                <h3 class="video-title">{video.data.titulo}</h3>
+                <div class="video-meta">
+                  <span class="video-channel">{video.data.canal}</span>
+                  <span class="video-date">{formatDate(video.data.fecha)}</span>
+                </div>
+              </div>
+            </a>
+          );
+        })}
+      </div>
+    ) : (
+      <p class="no-content">No hay videos disponibles en este momento.</p>
+    )}
+  </div>
+</Layout>
+
+<style>
+  .videos-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1.5rem 4rem;
+  }
+  
+  .videos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+  }
+  
+  .video-card {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  
+  .video-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+  }
+  
+  .video-thumbnail {
+    position: relative;
+    padding-top: 56.25%; /* 16:9 Aspect Ratio */
+    background: #f0f0f0;
+    overflow: hidden;
+  }
+  
+  .video-thumbnail img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  .video-duration {
+    position: absolute;
+    bottom: 0.5rem;
+    right: 0.5rem;
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    font-size: 0.75rem;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+  }
+  
+  .video-info {
+    padding: 1rem;
+  }
+  
+  .video-title {
+    font-size: 1rem;
+    margin: 0 0 0.5rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    line-height: 1.4;
+  }
+  
+  .video-meta {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.85rem;
+    color: #6b7280;
+  }
+  
+  .no-content {
+    text-align: center;
+    padding: 4rem 2rem;
+    color: #6b7280;
+    font-style: italic;
+    background: #f9fafb;
+    border-radius: 8px;
+  }
+  
+  @media (max-width: 768px) {
+    .videos-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

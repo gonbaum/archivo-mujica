@@ -6,6 +6,7 @@ const commonSchema = z.object({
   resumen: z.string(),
   fuente: z.string(),
   autor: z.string(),
+  // Removemos autor del esquema de videos ya que no es necesario
 });
 
 // Configuración común para todas las colecciones
@@ -31,6 +32,18 @@ const libroSchema = z.object({
   sinopsis: z.string()
 });
 
+// Esquema para videos
+const videoSchema = z.object({
+  titulo: z.string(),
+  fecha: z.string().transform((str) => new Date(str)),
+  fuente: z.string(),
+  canal: z.string(),
+  url: z.string().url(),
+  embedUrl: z.string().url(),
+  duracion: z.string().optional(),
+  descripcion: z.string().optional(),
+});
+
 export const collections = {
   discursos: defineCollection(collectionConfig),
   articulos: defineCollection(collectionConfig),
@@ -38,5 +51,9 @@ export const collections = {
   libros: defineCollection({
     ...collectionConfig,
     schema: libroSchema
+  }),
+  videos: defineCollection({
+    ...collectionConfig,
+    schema: videoSchema
   }),
 };
