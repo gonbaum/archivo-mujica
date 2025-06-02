@@ -1,5 +1,5 @@
 ---
-titulo: "JOSÉ MUJICA: El PODER de la HUMILDAD"
+titulo: "José Mujica: El poder de la humildad"
 fecha: "2025-05-21"
 fuente: "YouTube"
 canal: "Reflejos Producciones"

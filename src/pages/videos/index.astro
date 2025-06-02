@@ -3,6 +3,33 @@ import { getCollection } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
 import PageTitle from '../../components/PageTitle.astro';
 
+// Estilos críticos en línea para evitar layout shift
+const criticalStyles = `
+  .video-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    font-size: 0.85rem;
+    color: #6b7280;
+    margin-top: 0.5rem;
+  }
+  
+  .video-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+  }
+  
+  .video-card {
+    display: flex;
+    flex-direction: column;
+    border-radius: 0.5rem;
+    overflow: hidden;
+    transition: transform 0.2s ease-in-out;
+  }
+`;
+
 // Definir tipos para los videos
 type VideoItem = {
   slug: string;
@@ -102,9 +129,10 @@ const formatDate = (date: Date) => {
 ---
 
 <Layout 
-  title="Videos" 
-  description="Colección de discursos, entrevistas y apariciones públicas de José 'Pepe' Mujica"
+  title="Videos | Archivo José Mujica" 
+  description="Colección de videos destacados de José Mujica"
 >
+  <style set:html={criticalStyles} />
   <PageTitle 
     title="Videos" 
     description="Discursos, entrevistas y apariciones públicas de José 'Pepe' Mujica"
@@ -271,9 +299,11 @@ const formatDate = (date: Date) => {
   
   .video-meta {
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
+    gap: 0.25rem;
     font-size: 0.85rem;
     color: #6b7280;
+    margin-top: 0.5rem;
   }
   
   .no-content {
