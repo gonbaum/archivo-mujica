@@ -28,6 +28,7 @@ const sortedDiscursos = discursos.sort((a, b) => b.data.fecha.getTime() - a.data
                     url={`/discursos/${discurso.slug}`}
                     author={discurso.data.autor}
                     source={discurso.data.fuente}
+                    sourceUrl={discurso.data.fuente}
                     hasVideo={discurso.data.video === true}
                 />
             ))

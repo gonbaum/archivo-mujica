@@ -44,13 +44,15 @@ const formattedDate = new Intl.DateTimeFormat('es-UY', {
         {author && (
             <div class="card-meta">
                 <span class="author">Por: {author}</span>
-                {source && (
+                {sourceUrl && (
                     <span class="source">
-                        Fuente: {sourceUrl ? (
-                            <a href={sourceUrl} class="source-link" target="_blank" rel="noopener noreferrer">
-                                {source}
+                        {sourceUrl && (
+                            <a href={sourceUrl} class="source-link" target="_blank" rel="noopener noreferrer" aria-label="Ver fuente original">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M10 6H6a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-4M14 4h6m0 0v6m0-6L10 14"/>
+                                </svg>
                             </a>
-                        ) : source}
+                        )}
                     </span>
                 )}
             </div>
