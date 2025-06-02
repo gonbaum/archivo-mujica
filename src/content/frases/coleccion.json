@@ -1,0 +1,47 @@
+[
+  {
+    "texto": "Pobre no es el que tiene poco, sino el que necesita infinitamente mucho, y desea más y más.",
+    "fecha": "2012-06-20",
+    "contexto": "Conferencia de las Naciones Unidas sobre el Desarrollo Sostenible (Río+20)",
+    "tema": ["filosofía de vida", "consumo"]
+  },
+  {
+    "texto": "El desarrollo no puede ser en contra de la felicidad. Tiene que ser a favor de la felicidad humana, del amor, de la convivencia, del cariño, de las relaciones humanas, del cuidado de los hijos, de tener amigos, de tener lo elemental.",
+    "fecha": "2013-09-24",
+    "contexto": "Discurso en la Asamblea General de la ONU",
+    "tema": ["felicidad", "desarrollo", "sociedad"]
+  },
+  {
+    "texto": "La vida me ha enseñado que hay que ser luchador, que no hay que tener miedo a decir lo que uno piensa, a equivocarse, a empezar de nuevo, a cambiar de opinión, a ser consecuente con uno mismo.",
+    "tema": ["filosofía de vida", "valores"]
+  },
+  {
+    "texto": "El que no lucha por más felicidad, con ser feliz no se conforma.",
+    "tema": ["felicidad", "superación"]
+  },
+  {
+    "texto": "La única lucha que se pierde es la que se abandona.",
+    "tema": ["perseverancia", "lucha"]
+  },
+  {
+    "texto": "La educación es el principal motor del desarrollo social.",
+    "tema": ["educación", "sociedad"]
+  },
+  {
+    "texto": "Cuando luchas por una causa noble, es justo que la razón esté de tu lado.",
+    "tema": ["lucha", "justicia"]
+  },
+  {
+    "texto": "El único modo de ser libre es ser culto.",
+    "tema": ["educación", "libertad"]
+  },
+  {
+    "texto": "No soy pobre, soy sobrio, de bajo consumo.",
+    "contexto": "Entrevista sobre su estilo de vida",
+    "tema": ["estilo de vida", "consumo"]
+  },
+  {
+    "texto": "La única forma de ser iguales es tratando a todos por igual.",
+    "tema": ["igualdad", "justicia social"]
+  }
+]

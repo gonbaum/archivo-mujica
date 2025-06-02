@@ -32,7 +32,15 @@ const formattedDate = new Intl.DateTimeFormat('es-UY', {
             <time datetime={articulo.data.fecha.toISOString()}>{formattedDate}</time>
             <div class="source-info">
                 {articulo.data.autor && <span class="autor">Por: {articulo.data.autor}</span>}
-                {articulo.data.fuente && <span class="fuente">Fuente: {articulo.data.fuente}</span>}
+                {articulo.data.fuente && (
+                    <span class="fuente">
+                        Fuente: {articulo.data.source_url ? (
+                            <a href={articulo.data.source_url} target="_blank" rel="noopener noreferrer" class="source-link">
+                                {articulo.data.fuente} ↗
+                            </a>
+                        ) : articulo.data.fuente}
+                    </span>
+                )}
             </div>
         </div>
         

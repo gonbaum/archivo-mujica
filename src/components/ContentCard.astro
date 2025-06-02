@@ -6,10 +6,12 @@ interface Props {
     url: string;
     author?: string;
     source?: string;
+    sourceUrl?: string;
     hasVideo?: boolean;
+    externalLink?: boolean;
 }
 
-const { title, date, summary, url, author, source, hasVideo = false } = Astro.props;
+const { title, date, summary, url, author, source, sourceUrl, hasVideo = false, externalLink = false } = Astro.props;
 
 // Format date to a more human-readable format
 const formattedDate = new Intl.DateTimeFormat('es-UY', {
@@ -42,12 +44,27 @@ const formattedDate = new Intl.DateTimeFormat('es-UY', {
         {author && (
             <div class="card-meta">
                 <span class="author">Por: {author}</span>
-                {source && <span class="source">Fuente: {source}</span>}
+                {source && (
+                    <span class="source">
+                        Fuente: {sourceUrl ? (
+                            <a href={sourceUrl} class="source-link" target="_blank" rel="noopener noreferrer">
+                                {source}
+                            </a>
+                        ) : source}
+                    </span>
+                )}
             </div>
         )}
         
         <p class="summary">{summary}</p>
-        <a href={url} class="read-more">Leer más &rarr;</a>
+        <a 
+            href={url} 
+            class="read-more" 
+            target={externalLink ? "_blank" : undefined}
+            rel={externalLink ? "noopener noreferrer" : undefined}
+        >
+            Leer más {externalLink ? '↗' : '→'}
+        </a>
     </div>
 </article>
 

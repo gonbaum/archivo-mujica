@@ -28,6 +28,7 @@ const sortedArticulos = articulos.sort((a, b) => b.data.fecha.getTime() - a.data
                     url={`/articulos/${articulo.slug}`}
                     author={articulo.data.autor}
                     source={articulo.data.fuente}
+                    sourceUrl={articulo.data.source_url}
                 />
             ))
         ) : (

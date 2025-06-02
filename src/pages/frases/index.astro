@@ -1,0 +1,127 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import frasesData from '../../../src/content/frases/coleccion.json';
+
+// Función para formatear la fecha
+const formatDate = (dateString: string) => {
+  if (!dateString) return '';
+  const date = new Date(dateString);
+  return date.toLocaleDateString('es-UY', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+  });
+};
+---
+
+<Layout 
+  title="Frases | Archivo José Mujica" 
+  description="Frases célebres y reflexiones de José 'Pepe' Mujica"
+>
+  <div class="frases-container">
+    <h1>Frases de José Mujica</h1>
+    <p class="subtitle">Reflexiones y pensamientos del expresidente uruguayo</p>
+    
+    <div class="frases-grid">
+      {frasesData.map((frase, index) => (
+        <div class="frase-card" key={index}>
+          <blockquote>
+            <p>"{frase.texto}"</p>
+            {frase.contexto || frase.fecha ? (
+              <footer>
+                {frase.contexto && <span class="contexto">{frase.contexto}</span>}
+                {frase.fecha && (
+                  <span class="fecha">
+                    {frase.contexto ? ' - ' : ''}{formatDate(frase.fecha)}
+                  </span>
+                )}
+              </footer>
+            ) : null}
+
+          </blockquote>
+        </div>
+      ))}
+    </div>
+  </div>
+</Layout>
+
+<style>
+  .frases-container {
+    max-width: var(--content-width);
+    margin: 0 auto;
+    padding: 2rem 1rem;
+  }
+
+  h1 {
+    color: var(--color-heading);
+    font-size: 2.2rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .subtitle {
+    color: var(--color-text-muted);
+    font-size: 1.1rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .frases-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .frase-card {
+    background: var(--color-background-alt);
+    border-radius: 8px;
+    padding: 1.5rem;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .frase-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+
+  blockquote {
+    margin: 0;
+    padding: 0;
+    border: none;
+    font-style: italic;
+    position: relative;
+  }
+
+  blockquote p {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+    color: var(--color-text);
+  }
+
+  footer {
+    margin-top: 1rem;
+    font-size: 0.9rem;
+    color: var(--color-text-muted);
+  }
+
+  .contexto {
+    font-style: normal;
+    font-weight: 500;
+  }
+
+  .fecha {
+    font-size: 0.85em;
+    opacity: 0.8;
+  }
+
+
+
+  @media (max-width: 768px) {
+    .frases-grid {
+      grid-template-columns: 1fr;
+    }
+    
+    h1 {
+      font-size: 1.8rem;
+    }
+  }
+</style>

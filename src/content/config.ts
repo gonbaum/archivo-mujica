@@ -5,12 +5,12 @@ const commonSchema = z.object({
   fecha: z.string().transform((str) => new Date(str)),
   resumen: z.string(),
   fuente: z.string(),
+  source_url: z.string().url().optional(),
   autor: z.string(),
   video: z.boolean().optional().default(false),
   // Propiedades opcionales para discursos con video
   canal: z.string().optional(),
   duracion: z.string().optional(),
-  url: z.string().optional(),
   embedUrl: z.string().optional(),
   esDiscurso: z.boolean().optional().default(false)
 });
@@ -44,10 +44,17 @@ const videoSchema = z.object({
   fecha: z.string().transform((str) => new Date(str)),
   fuente: z.string(),
   canal: z.string(),
-  url: z.string().url(),
   embedUrl: z.string().url(),
   duracion: z.string().optional(),
   descripcion: z.string().optional(),
+});
+
+// Esquema para frases
+const fraseSchema = z.object({
+  texto: z.string(),
+  fecha: z.string().optional(),
+  contexto: z.string().optional(),
+  tema: z.array(z.string()).optional(),
 });
 
 export const collections = {
