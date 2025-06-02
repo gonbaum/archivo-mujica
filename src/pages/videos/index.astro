@@ -101,14 +101,32 @@ const allVideos: VideoItem[] = [...videos, ...discursosConVideo]
   .sort((a, b) => b.data.fecha.getTime() - a.data.fecha.getTime());
 
 // Función para obtener la miniatura de YouTube de una URL
-const getYoutubeThumbnail = (url?: string): string | null => {
-  if (!url) return null;
+const getYoutubeThumbnail = (videoData: { url?: string; embedUrl?: string }): string | null => {
+  if (!videoData.url && !videoData.embedUrl) return null;
   
   try {
-    const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
-    const match = url.match(regExp);
-    if (match && match[2] && match[2].length === 11) {
-      return `https://img.youtube.com/vi/${match[2]}/hqdefault.jpg`;
+    // Primero intentar con embedUrl si está disponible
+    if (videoData.embedUrl) {
+      const embedMatch = videoData.embedUrl.match(/embed\/([a-zA-Z0-9_-]{11})/);
+      if (embedMatch) {
+        return `https://img.youtube.com/vi/${embedMatch[1]}/hqdefault.jpg`;
+      }
+    }
+
+    // Si no hay embedUrl, usar url
+    if (videoData.url) {
+      // Intentar con el formato de URL normal
+      const watchMatch = videoData.url.match(/watch\?v=([a-zA-Z0-9_-]{11})/);
+      if (watchMatch) {
+        return `https://img.youtube.com/vi/${watchMatch[1]}/hqdefault.jpg`;
+      }
+
+      // Intentar con otros formatos
+      const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|\\&v=)([^#\\&\?]*).*/;
+      const match = videoData.url.match(regExp);
+      if (match && match[2] && match[2].length === 11) {
+        return `https://img.youtube.com/vi/${match[2]}/hqdefault.jpg`;
+      }
     }
   } catch (error) {
     console.error('Error al procesar la URL del video:', error);
@@ -142,7 +160,7 @@ const formatDate = (date: Date) => {
     {allVideos.length > 0 ? (
       <div class="videos-grid">
         {allVideos.map((video) => {
-          const thumbnail = getYoutubeThumbnail(video.data.url);
+           const thumbnail = getYoutubeThumbnail(video.data);
           
           return (
             <a 
