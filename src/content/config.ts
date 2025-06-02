@@ -7,6 +7,12 @@ const commonSchema = z.object({
   fuente: z.string(),
   autor: z.string(),
   video: z.boolean().optional().default(false),
+  // Propiedades opcionales para discursos con video
+  canal: z.string().optional(),
+  duracion: z.string().optional(),
+  url: z.string().optional(),
+  embedUrl: z.string().optional(),
+  esDiscurso: z.boolean().optional().default(false)
 });
 
 // Configuración común para todas las colecciones
