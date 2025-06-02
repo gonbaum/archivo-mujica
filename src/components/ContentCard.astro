@@ -6,9 +6,10 @@ interface Props {
     url: string;
     author?: string;
     source?: string;
+    hasVideo?: boolean;
 }
 
-const { title, date, summary, url, author, source } = Astro.props;
+const { title, date, summary, url, author, source, hasVideo = false } = Astro.props;
 
 // Format date to a more human-readable format
 const formattedDate = new Intl.DateTimeFormat('es-UY', {
@@ -20,7 +21,22 @@ const formattedDate = new Intl.DateTimeFormat('es-UY', {
 
 <article class="card">
     <div class="card-content">
-        <h2 class="card-title"><a href={url}>{title}</a></h2>
+        <div class="card-header">
+            <h2 class="card-title">
+                <a href={url}>{title}</a>
+            </h2>
+            {hasVideo && (
+                <div class="tag-container">
+                    <span class="video-tag" title="Incluye video">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polygon points="23 7 16 12 23 17 23 7"></polygon>
+                            <rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect>
+                        </svg>
+                        <span class="tag-text">Video disponible</span>
+                    </span>
+                </div>
+            )}
+        </div>
         <time datetime={date.toISOString()}>{formattedDate}</time>
         
         {author && (
@@ -45,10 +61,43 @@ const formattedDate = new Intl.DateTimeFormat('es-UY', {
         border-bottom: none;
     }
 
-    .card-title {
-        margin-top: 0;
+    .card-header {
         margin-bottom: 0.5rem;
+    }
+
+    .card-title {
+        margin: 0 0 0.5rem 0;
         font-size: 1.5rem;
+    }
+    
+    .tag-container {
+        display: inline-block;
+        margin-top: 0.25rem;
+    }
+    
+    .video-tag {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 0.75rem;
+        background: rgba(138, 99, 210, 0.12);
+        color: #6d28d9;
+        padding: 0.4rem 1rem;
+        border-radius: 1rem;
+        border: 1px solid rgba(138, 99, 210, 0.25);
+        text-decoration: none;
+        font-weight: 500;
+        line-height: 1.2;
+        
+        svg {
+            width: 0.9em;
+            height: 0.9em;
+            flex-shrink: 0;
+        }
+        
+        .tag-text {
+            margin-top: 1px;
+        }
     }
 
     .card-title a {

@@ -6,7 +6,7 @@ const commonSchema = z.object({
   resumen: z.string(),
   fuente: z.string(),
   autor: z.string(),
-  // Removemos autor del esquema de videos ya que no es necesario
+  video: z.boolean().optional().default(false),
 });
 
 // Configuración común para todas las colecciones
